@@ -1,0 +1,7 @@
+---
+- name: Deploy Apache Role
+  hosts: test
+  become: yes
+
+  roles:
+    - myrole

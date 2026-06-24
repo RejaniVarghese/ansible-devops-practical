@@ -1,0 +1,16 @@
+---
+- hosts: dev
+  become: yes
+
+  tasks:
+    - copy:
+        content: "development"
+        dest: /etc/issue
+
+- hosts: test
+  become: yes
+
+  tasks:
+    - copy:
+        content: "test"
+        dest: /etc/issue

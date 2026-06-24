@@ -1,0 +1,34 @@
+---
+- name: Install Packages on Dev and Test
+  hosts:
+    - dev
+    - test
+  become: yes
+
+  tasks:
+
+    - name: Install MariaDB Server
+      dnf:
+        name: mariadb118-server
+        state: present
+
+    - name: Install PHP
+      dnf:
+        name: php
+        state: present
+
+- name: Update and Install Development Tools on Dev Hosts
+  hosts: dev
+  become: yes
+
+  tasks:
+
+    - name: Update all packages
+      dnf:
+        name: "*"
+        state: latest
+
+    - name: Install Development Tools
+      dnf:
+        name: "@Development Tools"
+        state: present

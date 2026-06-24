@@ -1,0 +1,45 @@
+---
+- name: Configure Custom Web Server
+  hosts: dev
+  become: yes
+
+  tasks:
+
+    - name: Install Apache
+      dnf:
+        name: httpd
+        state: present
+
+    - name: Remove old webdev if present
+      file:
+        path: /webdev
+        state: absent
+
+    - name: Remove old html if present
+      file:
+        path: /var/www/html
+        state: absent
+
+    - name: Create webdev directory
+      file:
+        path: /webdev
+        state: directory
+        mode: '0755'
+
+    - name: Create webpage
+      copy:
+        dest: /webdev/index.html
+        content: "development\n"
+
+    - name: Create symbolic link
+      file:
+        src: /webdev
+        dest: /var/www/html
+        state: link
+        force: yes
+
+    - name: Start Apache
+      service:
+        name: httpd
+        state: started
+        enabled: yes
